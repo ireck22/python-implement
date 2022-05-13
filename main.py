@@ -25,12 +25,20 @@ if len(result_pchome) > 1:
 # =======爬pchome的商品 end==============
 
 # =======爬momo的商品 start==============
-result_pchome = momo.get_prods(key)
-if len(result_pchome) > 1:
-    finsih_result.append(result_pchome)
+result_momo = momo.get_prods(key)
+# print(result_momo)
+# sys.exit()
+if len(result_momo) > 1:
+    finsih_result.append(result_momo)
 # =======爬momo的商品 end==============
 
-print(finsih_result)
+# print(finsih_result)
+# for i in finsih_result:
+#     print(i)
+df=pd.DataFrame(finsih_result)
+# finish=df.sort_values(by='價格') #價格小到大
+df.to_csv("ss.csv")
+print("end")
 sys.exit()
 
 # sorted(result3,key = lambda f: f[0],reverse = True)

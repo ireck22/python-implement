@@ -38,9 +38,10 @@ def get_prods(key):
         return "沒有此商品"
 
     # 放商品名稱和和價格
-    result = {"平台:": "PCHOME",
-              "商品名稱": r2['prods'][0]['name'],
-              "價格": r2['prods'][0]['price']
-              }
+    result = {
+        "平台:": "PCHOME",
+        "商品名稱": r2['prods'][0]['name'],
+        "價格": r2['prods'][0]['price']
+    }
 
     return result
