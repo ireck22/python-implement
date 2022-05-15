@@ -45,9 +45,9 @@ def get_prods(key):
 
     # 放商品名稱和和價格
     result = {
-        "平台:": "PCHOME",
+        "平台": "PCHOME",
         "商品名稱": content3['name'],
-        "價格": content3['price']
+        "價格": int(content3['price'])
     }
 
     return result
