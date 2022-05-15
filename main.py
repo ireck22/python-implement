@@ -11,7 +11,6 @@ import codecs
 import re
 import ssl
 import time
-import ruten
 import pchome
 import momo
 import shopee
