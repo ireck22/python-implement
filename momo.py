@@ -21,7 +21,7 @@ def get_prods(key):
     key2 = key.split(' ')
     length = len(key2)
     if length > 0:
-        key = urllib.parse.quote(key)   #url encode
+        key = urllib.parse.quote(key)  # url encode
     # ==============空格處理 end===========
 
     # 拿mobile版型的
@@ -32,16 +32,16 @@ def get_prods(key):
     result = []
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, 'lxml')
-    content = soup.find_all('ul')   #商品都在裡面
+    content = soup.find_all('ul')  # 商品都在裡面
     for row in content:
         if row.find('div', class_='prdInfoWrap'):
             result_temp = {}
             prod = row.find_all('div', class_='prdInfoWrap')
             for row2 in prod:
                 prdName = row2.find('h3').text
-                prdName2 = prdName.split('\r\n')
-                prdName3 = prdName2[1].strip()
-                price = row2.find('b', class_='price').text
+                prdName2 = prdName.split('\r\n')            #商品名子
+                prdName3 = prdName2[1].strip()              #商品名子去左右空白
+                price = row2.find('b', class_='price').text #商品價格
 
                 result_temp = {
                     "name": prdName3,
@@ -51,7 +51,7 @@ def get_prods(key):
                 result.append(result_temp)
 
     length = len(result)
-    if length < 0:
+    if length == 0:
         return "沒有此商品"
 
     df = pd.DataFrame(result)
@@ -59,6 +59,6 @@ def get_prods(key):
     finish_result = {
         "平台": "MOMO",
         "商品名稱": min_price[0],
-        "價格": min_price[1]
+        "價格": int(min_price[1])
     }
     return finish_result
