@@ -51,7 +51,7 @@ def get_prods(key):
 
         x = 0
         for d in key2:
-            if d in item_name.lower():
+            if d in item_name:
                 x += 1
 
         if x == key2_length:
@@ -62,7 +62,9 @@ def get_prods(key):
                 "price_max": item_price_max,
             })
     # ==============整理爬下來的資料 end===========
-
+    if len(result)==0:
+        return ["沒有此商品"]
+    
     # ===========找出最低價格的key值 start===========
     df = pd.DataFrame(result)
     min_price = df['price'].min()
