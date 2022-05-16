@@ -20,14 +20,15 @@ def get_prods(key):
 
     # ==============空格處理 start=========
     key2 = key.split(' ')
-    length = len(key2)
-    if length > 0:
+    key2_length = len(key2)
+
+    if key2_length > 0:
         key = urllib.parse.quote(key)  # url encode
     # ==============空格處理 end===========
 
     # url = "https://shopee.tw/search?keyword="+key
     url = "https://shopee.tw/api/v4/search/search_items?by=relevancy&keyword="+key + \
-        "&limit=10&newest=0&order=desc&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2"
+        "&limit=10&newest=0&order=asc&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2"
 
     # 靜態爬取
     result = []
@@ -38,7 +39,7 @@ def get_prods(key):
 
     length = len(content2['items'])
     if length == 0:
-        return "沒有此商品"
+        return ["沒有此商品"]
 
     # ==============整理爬下來的資料 start===========
     result = []
@@ -48,13 +49,19 @@ def get_prods(key):
         item_price_min = row['item_basic']['price_min']  # 商品最低價格
         item_price_max = row['item_basic']['price_max']  # 商品最高價格
 
-        result.append({
-            "name": item_name,
-            "price": item_price,
-            "price_min": item_price_min,
-            "price_max": item_price_max,
-        })
-    # ==============整理爬下來的資料 start===========
+        x = 0
+        for d in key2:
+            if d in item_name.lower():
+                x += 1
+
+        if x == key2_length:
+            result.append({
+                "name": item_name,
+                "price": item_price,
+                "price_min": item_price_min,
+                "price_max": item_price_max,
+            })
+    # ==============整理爬下來的資料 end===========
 
     # ===========找出最低價格的key值 start===========
     df = pd.DataFrame(result)

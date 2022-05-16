@@ -19,8 +19,8 @@ def get_prods(key):
 
     # ==============空格處理 start=========
     key2 = key.split(' ')
-    length = len(key2)
-    if length > 0:
+    key2_length = len(key2)
+    if key2_length > 0:
         key = urllib.parse.quote(key)  # url encode
     # ==============空格處理 end===========
 
@@ -39,20 +39,27 @@ def get_prods(key):
             prod = row.find_all('div', class_='prdInfoWrap')
             for row2 in prod:
                 prdName = row2.find('h3').text
-                prdName2 = prdName.split('\r\n')            #商品名子
-                if len(prdName2)==2:
-                    prdName3 = prdName2[1].strip()              #商品名子去左右空白
-                    price = row2.find('b', class_='price').text #商品價格
+                prdName2 = prdName.split('\r\n')  # 商品名子
+                if len(prdName2) == 2:
+                    prdName3 = prdName2[1].strip()  # 商品名子去左右空白
+                    # ==============篩選資料 start================
+                    x = 0
+                    for d in key2:
+                        if d in prdName3:
+                            x += 1
+                    # ==============篩選資料 end==================
+                    if x == key2_length:
+                        price = row2.find('b', class_='price').text  # 商品價格
 
-                    result_temp = {
-                        "name": prdName3,
-                        "price": price,
-                    }
+                        result_temp = {
+                            "name": prdName3,
+                            "price": price,
+                        }
+                        result.append(result_temp)
 
-                    result.append(result_temp)
     length = len(result)
     if length == 0:
-        return "沒有此商品"
+        return ["沒有此商品"]
 
     df = pd.DataFrame(result)
     min_price = df.min()
