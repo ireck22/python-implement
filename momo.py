@@ -40,16 +40,16 @@ def get_prods(key):
             for row2 in prod:
                 prdName = row2.find('h3').text
                 prdName2 = prdName.split('\r\n')            #商品名子
-                prdName3 = prdName2[1].strip()              #商品名子去左右空白
-                price = row2.find('b', class_='price').text #商品價格
+                if len(prdName2)==2:
+                    prdName3 = prdName2[1].strip()              #商品名子去左右空白
+                    price = row2.find('b', class_='price').text #商品價格
 
-                result_temp = {
-                    "name": prdName3,
-                    "price": price,
-                }
+                    result_temp = {
+                        "name": prdName3,
+                        "price": price,
+                    }
 
-                result.append(result_temp)
-
+                    result.append(result_temp)
     length = len(result)
     if length == 0:
         return "沒有此商品"
