@@ -42,13 +42,7 @@ def get_prods(key):
                 prdName2 = prdName.split('\r\n')  # 商品名子
                 if len(prdName2) == 2:
                     prdName3 = prdName2[1].strip()  # 商品名子去左右空白
-                    # ==============篩選資料 start================
-                    x = 0
-                    for d in key2:
-                        if d in prdName3:
-                            x += 1
-                    # ==============篩選資料 end==================
-                    if x == key2_length:
+                    if key2[1] in prdName3:
                         price = row2.find('b', class_='price').text  # 商品價格
 
                         result_temp = {
