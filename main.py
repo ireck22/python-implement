@@ -36,9 +36,6 @@ if len(result_shopee) > 1:
     finsih_result.append(result_shopee)
 # =======爬shopee的商品 end===============
 
-# for i in finsih_result:
-    # print(i)
-
 df = pd.DataFrame(finsih_result)
 finish = df.sort_values(by=['價格'])  # 價格小到大
 finish.to_csv("比價.csv")
