@@ -39,7 +39,7 @@ def get_prods(key):
         return ["沒有此商品"]
 
     # ===========整理資料拿出金額最小的 start===========
-    df = pd.DataFrame(content2['prods'][0:10])  #取出前10筆資料
+    df = pd.DataFrame(content2['prods'][0:10])  # 取出前10筆資料
     content3 = df.min().to_dict()               # 找出最小的價格的商品資料轉字典
     # ===========整理資料拿出金額最小的 end=============
 
