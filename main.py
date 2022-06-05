@@ -14,6 +14,7 @@ import time
 import pchome
 import momo
 import shopee
+import pymysql
 
 key = input("請輸入要找的商品:")
 finsih_result = []
@@ -39,4 +40,34 @@ if len(result_shopee) > 1:
 df = pd.DataFrame(finsih_result)
 finish = df.sort_values(by=['價格'])  # 價格小到大
 finish.to_csv("比價.csv")
+
+#連接sql
+db_setting={
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "sa",
+    "password": "abc123",
+    "db": "parity",
+    # "charset": "utf8mb4"
+}
+
+try:
+    db=pymysql.connect(**db_setting)
+    # print("資料庫連結成功")
+    #使用cursor()方法創建一個游標對象cursor
+    cursor=db.cursor()
+    sql="insert into content(platform,prod_name,price)VALUES (%s,%s,%s)"
+
+    for key,value in finish.iterrows():
+        print(value.平台,value.商品名稱,value.價格)
+        cursor.execute(sql,(value.平台,value.商品名稱,value.價格)) #執行sql語法
+    
+    db.commit()     #資料庫提交
+        
+except Exception as ex:
+    print(ex)
+
+
+print("sql 統整完")
+db.close()      #資料庫關閉
 print("end")
