@@ -29,6 +29,7 @@ def get_prods(key):
         key+"&_advThreeHours=N&_isFuzzy=0&_imgSH=fourCardType"
 
     # 靜態爬取
+    #====================開始爬取 start==========================
     result = []
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, 'lxml')
@@ -38,7 +39,7 @@ def get_prods(key):
             result_temp = {}
             prod = row.find_all('div', class_='prdInfoWrap')
             for row2 in prod:
-                prdName = row2.find('h3').text
+                prdName = row2.find('h3').text  # 取文字
                 prdName2 = prdName.split('\r\n')  # 商品名子
                 if len(prdName2) == 2:
                     prdName3 = prdName2[1].strip()  # 商品名子去左右空白
@@ -51,6 +52,8 @@ def get_prods(key):
                         }
                         result.append(result_temp)
 
+    #=======================開始爬取 end=============================
+
     length = len(result)
     if length == 0:
         return ["沒有此商品"]
@@ -62,4 +65,5 @@ def get_prods(key):
         "商品名稱": min_price[0],
         "價格": int(min_price[1])
     }
+
     return finish_result
