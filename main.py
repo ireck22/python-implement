@@ -17,29 +17,31 @@ import shopee
 import pymysql
 
 key = input("請輸入要找的商品:")
-finsih_result = []
+finish_result = []
 
 # =======爬momo的商品 start===============
 result_momo = momo.get_prods(key)
 if len(result_momo) > 1:
-    finsih_result.append(result_momo)
+    finish_result.append(result_momo)
 # =======爬momo的商品 end=================
 
 # =======爬pchome的商品 start=============
 result_pchome = pchome.get_prods(key)
 if len(result_pchome) > 1:
-    finsih_result.append(result_pchome)
+    finish_result.append(result_pchome)
 # =======爬pchome的商品 end===============
 
 # =======爬shopee的商品 start=============
 result_shopee = shopee.get_prods(key)
 if len(result_shopee) > 1:
-    finsih_result.append(result_shopee)
+    finish_result.append(result_shopee)
 # =======爬shopee的商品 end===============
 
-df = pd.DataFrame(finsih_result)
+df = pd.DataFrame(finish_result)
 finish = df.sort_values(by=['價格'])  # 價格小到大
-finish.to_csv("比價.csv")
+print(finish) 
+finish.to_csv("比價.csv",encoding="utf_8_sig")
+sys.exit()
 
 #連接sql
 db_setting={
